@@ -17,10 +17,8 @@ A static HTML GitHub Pages site for displaying scripts with embedded YouTube vid
 
 3. **Deploy to GitHub Pages**:
    - Push this repository to GitHub
-   - Enable GitHub Pages in repository settings
-   - Select "Deploy from a branch" as the source
-   - Choose `main` branch and `/ (root)` folder
-   - The site will automatically deploy
+   - GitHub Actions will automatically deploy to GitHub Pages
+   - Your site will be live at `https://YOUR_USERNAME.github.io/Js-Store/`
 
 ## Adding New Scripts
 
@@ -52,12 +50,16 @@ The script provides options to:
 
 ## Features
 
-- Dark mode UI
+- Dark mode UI with purple accent
 - Responsive design
 - GitHub API integration for repository stats
 - Embedded YouTube videos
 - Auto-load videos (no auto-play with sound)
 - Configurable script list
+- Support for scripts hosted on Tebex, GitHub, or both
+- Separate free and paid script pages
+- README modal for detailed script information
+- Automatic deployment via GitHub Actions
 
 ## YouTube Video IDs
 
@@ -65,3 +67,13 @@ To find a YouTube video ID:
 1. Go to the video on YouTube
 2. The URL will be like: `https://www.youtube.com/watch?v=VIDEO_ID`
 3. Copy the `VIDEO_ID` portion
+
+## Pages
+
+- `index.html` - Main page with free scripts
+- `paid.html` - Premium scripts page
+- `about.html` - About me page
+
+## GitHub Actions
+
+This repository uses GitHub Actions for automatic deployment. When you push to the `main` branch, the workflow will automatically deploy your site to GitHub Pages. No manual configuration needed!
