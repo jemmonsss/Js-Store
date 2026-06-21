@@ -1,0 +1,48 @@
+{
+  "fivem_scripts": [
+    {
+      "name": "Js-Randocar",
+      "repo": "jemmonsss/Js-Randocar",
+      "youtube_id": "n/a"
+    },
+    {
+      "name": "JsColorswap",
+      "repo": "jemmonsss/JsColorswap--FiveM-Script",
+      "youtube_id": "AX-qdbBQoWc"
+    },
+    {
+      "name": "Js-EAS",
+      "repo": "jemmonsss/Js-EAS",
+      "youtube_id": "NQKzHGVDS4s"
+    },
+    {
+      "name": "Jspropmenu",
+      "youtube_id": "w4fBJ2jDYzo",
+      "description": "a",
+      "tebex_url": "https://mtl-city.tebex.io/package/6707683",
+      "repo": "jemmonsss/Jspropmenu"
+    },
+    {
+      "name": "keytocommands",
+      "youtube_id": "TQQxhP71YTE",
+      "description": "a",
+      "tebex_url": "https://mtl-city.tebex.io/package/6684707",
+      "repo": "jemmonsss/keytocommands"
+    },
+    {
+      "name": "Jsfreecam",
+      "youtube_id": "Nuh7MnVIOJE",
+      "description": "a",
+      "tebex_url": "https://mtl-city.tebex.io/package/6717497",
+      "repo": "jemmonsss/Jsfreecam"
+    }
+  ],
+  "paid_scripts": [
+    {
+      "name": "Example Paid Script",
+      "description": "Description of the paid script",
+      "youtube_id": "video-id",
+      "tebex_url": "https://your-tebex-store.com/package/123"
+    }
+  ]
+}

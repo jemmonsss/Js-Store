@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Premium Scripts - Js-Scripts</title>
+  <meta name="description" content="Premium scripts available on Tebex">
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="nav-container">
+        <a href="index.html" class="logo">Js-Scripts</a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="https://github.com/" target="_blank">GitHub</a>
+          <a href="https://www.youtube.com/@J_emmons_07/videos" target="_blank">YouTube</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="store-header">
+      <h1>Premium Scripts</h1>
+      <p>Exclusive premium scripts available on Tebex</p>
+    </div>
+
+    <div class="scripts-container" id="paid-scripts-container">
+      <!-- Paid scripts will be loaded here -->
+    </div>
+  </main>
+
+  <footer>
+    <p>Js-Scripts</p>
+  </footer>
+
+  <!-- README Modal -->
+  <div id="readme-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">README</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <div class="modal-loading">Loading README...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let paidScripts = [];
+
+    // Load scripts from config file
+    async function loadScriptsConfig() {
+      try {
+        const response = await fetch('scripts-config.json');
+        const config = await response.json();
+        paidScripts = config.paid_scripts || [];
+        renderPaidScripts(paidScripts);
+      } catch (error) {
+        console.error('Error loading scripts config:', error);
+        document.getElementById('paid-scripts-container').innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Error loading paid scripts.</p>';
+      }
+    }
+
+    // Render paid scripts
+    function renderPaidScripts(scripts) {
+      const container = document.getElementById('paid-scripts-container');
+      
+      if (scripts.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No premium scripts available at this time.</p>';
+        return;
+      }
+      
+      scripts.forEach((script, index) => {
+        const card = document.createElement('div');
+        card.className = 'script-card paid-card';
+        card.dataset.youtube = script.youtube_id;
+        
+        card.innerHTML = `
+          <div class="script-info">
+            <h2>${script.name} <span class="paid-badge">💎 Premium</span></h2>
+            <div class="repo-details">
+              <p class="description">${script.description || 'No description available'}</p>
+            </div>
+            <div class="button-group">
+              <a href="${script.tebex_url}" target="_blank" class="view-repo-btn paid-btn">💎 Purchase on Tebex</a>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe 
+              id="youtube-paid-${index}"
+              src="" 
+              data-src="https://www.youtube.com/embed/${script.youtube_id}?rel=0"
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+        `;
+        
+        container.appendChild(card);
+      });
+
+      // Load YouTube videos after page load
+      const iframes = container.querySelectorAll('iframe[data-src]');
+      iframes.forEach(iframe => {
+        iframe.src = iframe.dataset.src;
+      });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', loadScriptsConfig);
+
+    // Modal functions (kept for consistency, though paid scripts don't use README)
+    function closeModal() {
+      const modal = document.getElementById('readme-modal');
+      modal.classList.remove('show');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('readme-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
