@@ -12,7 +12,10 @@
   <header>
     <nav>
       <div class="nav-container">
-        <a href="index.html" class="logo">Js-Scripts</a>
+        <a href="index.html" class="logo">
+          <img src="logo.png" onerror="this.src='logo.jpg'" alt="Js-Scripts Logo" class="logo-img">
+          <span>Js-Scripts</span>
+        </a>
         <div class="nav-links">
           <a href="index.html">Home</a>
           <a href="about.html">About</a>
@@ -25,8 +28,20 @@
 
   <main>
     <div class="store-header">
+      <div class="header-logo">
+        <img src="logo.png" onerror="this.src='logo.jpg'" alt="Js-Scripts Logo" class="header-logo-img">
+      </div>
       <h1>Js-Scripts</h1>
       <p>Browse my scripts and resources</p>
+    </div>
+
+    <div class="category-nav">
+      <button class="category-btn active" data-category="all">All</button>
+      <button class="category-btn" data-category="standalone">Standalone</button>
+      <button class="category-btn" data-category="qbcore">QBCore</button>
+      <button class="category-btn" data-category="esx">ESX</button>
+      <button class="category-btn" data-category="mlo">MLO</button>
+      <button class="category-btn" data-category="ymap">YMAP</button>
     </div>
 
     <div class="scripts-container" id="scripts-container">
@@ -78,13 +93,25 @@
     // Render scripts
     function renderScripts(scripts, containerId, isPaid = false) {
       const container = document.getElementById(containerId);
+      container.innerHTML = '';
       
-      scripts.forEach((script, index) => {
+      const activeCategory = document.querySelector('.category-btn.active')?.dataset.category || 'all';
+      const filteredScripts = activeCategory === 'all' 
+        ? scripts 
+        : scripts.filter(script => script.category === activeCategory);
+      
+      if (filteredScripts.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); grid-column: 1/-1;">No scripts found in this category.</p>';
+        return;
+      }
+      
+      filteredScripts.forEach((script, index) => {
         const card = document.createElement('div');
         card.className = isPaid ? 'script-card paid-card' : 'script-card';
         card.dataset.repo = script.repo || '';
         card.dataset.youtube = script.youtube_id;
         card.dataset.tebex = script.tebex_url || '';
+        card.dataset.category = script.category || 'standalone';
         
         let buttons = '';
         let description = '';
@@ -147,6 +174,7 @@
         card.innerHTML = `
           <div class="script-info">
             <h2>${script.name} ${isPaid ? '<span class="paid-badge">💎 Premium</span>' : ''}</h2>
+            <span class="category-badge">${script.category || 'standalone'}</span>
             <div class="repo-details">
               <p class="description">${description}</p>
               ${stats}
@@ -208,7 +236,19 @@
     }
 
     // Initialize
-    document.addEventListener('DOMContentLoaded', loadScriptsConfig);
+    document.addEventListener('DOMContentLoaded', () => {
+      loadScriptsConfig();
+      
+      // Category button click handlers
+      const categoryBtns = document.querySelectorAll('.category-btn');
+      categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoryBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          loadScriptsConfig();
+        });
+      });
+    });
 
     // Modal functions
     function showReadme(repo) {

@@ -7,12 +7,17 @@
   <meta name="description" content="Premium scripts available on Tebex">
   
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
 </head>
 <body>
   <header>
     <nav>
       <div class="nav-container">
-        <a href="index.html" class="logo">Js-Scripts</a>
+        <a href="index.html" class="logo">
+          <img src="logo.png" onerror="this.src='logo.jpg'" alt="Js-Scripts Logo" class="logo-img">
+          <span>Js-Scripts</span>
+        </a>
         <div class="nav-links">
           <a href="index.html">Home</a>
           <a href="about.html">About</a>
@@ -25,8 +30,20 @@
 
   <main>
     <div class="store-header">
+      <div class="header-logo">
+        <img src="logo.png" onerror="this.src='logo.jpg'" alt="Js-Scripts Logo" class="header-logo-img">
+      </div>
       <h1>Premium Scripts</h1>
       <p>Exclusive premium scripts available on Tebex</p>
+    </div>
+
+    <div class="category-nav">
+      <button class="category-btn active" data-category="all">All</button>
+      <button class="category-btn" data-category="standalone">Standalone</button>
+      <button class="category-btn" data-category="qbcore">QBCore</button>
+      <button class="category-btn" data-category="esx">ESX</button>
+      <button class="category-btn" data-category="mlo">MLO</button>
+      <button class="category-btn" data-category="ymap">YMAP</button>
     </div>
 
     <div class="scripts-container" id="paid-scripts-container">
@@ -115,7 +132,19 @@
     }
 
     // Initialize
-    document.addEventListener('DOMContentLoaded', loadScriptsConfig);
+    document.addEventListener('DOMContentLoaded', () => {
+      loadScriptsConfig();
+      
+      // Category button click handlers
+      const categoryBtns = document.querySelectorAll('.category-btn');
+      categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoryBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          loadScriptsConfig();
+        });
+      });
+    });
 
     // Modal functions (kept for consistency, though paid scripts don't use README)
     function closeModal() {

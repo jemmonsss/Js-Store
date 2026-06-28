@@ -47,6 +47,7 @@ def list_scripts(config):
         print(f"\n--- Free Scripts ({len(free_scripts)} total) ---")
         for i, script in enumerate(free_scripts, 1):
             print(f"\n{i}. {script['name']}")
+            print(f"   Category: {script.get('category', 'standalone')}")
             if script.get('repo'):
                 print(f"   Repo: {script['repo']}")
             if script.get('tebex_url'):
@@ -58,6 +59,7 @@ def list_scripts(config):
         print(f"\n--- Paid Scripts ({len(paid_scripts)} total) ---")
         for i, script in enumerate(paid_scripts, 1):
             print(f"\n{i}. {script['name']} 💎")
+            print(f"   Category: {script.get('category', 'standalone')}")
             print(f"   Description: {script.get('description', 'No description')}")
             print(f"   YouTube ID: {script['youtube_id']}")
             print(f"   Tebex URL: {script['tebex_url']}")
@@ -82,9 +84,17 @@ def add_script(config, batch_mode=False):
         print("❌ YouTube ID is required!")
         return False
     
+    category = input("Category (standalone/qbcore/esx/mlo/ymap): ").strip().lower()
+    if not category:
+        category = "standalone"
+    if category not in ['standalone', 'qbcore', 'esx', 'mlo', 'ymap']:
+        print("❌ Invalid category! Using 'standalone'")
+        category = "standalone"
+    
     new_script = {
         "name": name,
-        "youtube_id": youtube_id
+        "youtube_id": youtube_id,
+        "category": category
     }
     
     if script_type == 'paid':
@@ -214,9 +224,17 @@ def add_from_urls(config, batch_mode=False):
         print("❌ Could not extract video ID from YouTube URL!")
         return False
     
+    category = input("Category (standalone/qbcore/esx/mlo/ymap): ").strip().lower()
+    if not category:
+        category = "standalone"
+    if category not in ['standalone', 'qbcore', 'esx', 'mlo', 'ymap']:
+        print("❌ Invalid category! Using 'standalone'")
+        category = "standalone"
+    
     new_script = {
         "name": name,
-        "youtube_id": youtube_id
+        "youtube_id": youtube_id,
+        "category": category
     }
     
     if script_type == 'paid':
@@ -259,10 +277,12 @@ def add_from_urls(config, batch_mode=False):
     save_config(config)
     print(f"\n✓ Added '{name}' to configuration!")
     if script_type == 'paid':
+        print(f"  Category: {category}")
         print(f"  Description: {description}")
         print(f"  YouTube ID: {youtube_id}")
         print(f"  Tebex URL: {tebex_url}")
     else:
+        print(f"  Category: {category}")
         if new_script.get("tebex_url"):
             print(f"  Description: {new_script.get('description', 'N/A')}")
             print(f"  Tebex URL: {new_script['tebex_url']}")
@@ -308,9 +328,17 @@ def batch_add_mode(config):
             print("❌ Could not extract video ID from YouTube URL!")
             continue
         
+        category = input("Category (standalone/qbcore/esx/mlo/ymap): ").strip().lower()
+        if not category:
+            category = "standalone"
+        if category not in ['standalone', 'qbcore', 'esx', 'mlo', 'ymap']:
+            print("❌ Invalid category! Using 'standalone'")
+            category = "standalone"
+        
         new_script = {
             "name": name,
-            "youtube_id": youtube_id
+            "youtube_id": youtube_id,
+            "category": category
         }
         
         if script_type == 'paid':
@@ -352,6 +380,7 @@ def batch_add_mode(config):
         
         save_config(config)
         print(f"\n✓ Added '{name}' to configuration!")
+        print(f"  Category: {category}")
         if script_type == 'paid':
             print(f"  Description: {description}")
             print(f"  YouTube ID: {youtube_id}")
